@@ -9,18 +9,23 @@
     </div>
 
     <main class="container">
+
       <ul class="movieList"> <b>Movies</b>
         <li v-for="movie in movieList" :key="movie.id">
+          <img :src="getPosterPic(movie)" alt="">
             original title: {{ movie.original_title }} | title: {{movie.title}} <br>
-            Lang: {{movie.original_language}} | Ratings: {{movie.vote_average}}
+            Lang: {{movie.original_language}}  | Ratings: {{movie.vote_average}}
         </li>
       </ul>
-      <ul class="movieList"> <b>Series</b>
+
+      <ul class="tvList"> <b>Series</b>
         <li v-for="tv in tvList" :key="tv.id">
+            <img :src="getPosterPic(tv)" alt="">
             original title: {{ tv.original_name }} | title: {{tv.name}} <br>
             Lang: {{tv.original_language}} | Ratings: {{tv.vote_average}}
         </li>
       </ul>
+
     </main>
   </div>
 </template>
@@ -38,9 +43,11 @@ export default {
       BASE_MOVIE_URI: 'https://api.themoviedb.org/3/search/movie?',
       BASE_TV_URI: 'https://api.themoviedb.org/3/search/tv?',
       movieList: [],
-      tvList: []
+      tvList: [],
+      flag: '/Users/eliavanon/Desktop/ESERCIZI BOOLEAN/vue-boolflix/src/assets/flags/en.jpg'
     }
   },
+
 
   methods: {
     fetchList(){
@@ -78,6 +85,13 @@ export default {
             console.log(this.tvList)
           })
     },
+
+    getPosterPic(movie){
+      const BASE_URI = 'https://image.tmdb.org/t/p/w154/'
+      const posterUrl = BASE_URI + movie.poster_path
+
+      return posterUrl
+    }
   },
 
   
@@ -85,5 +99,7 @@ export default {
 </script>
 
 <style lang="scss">
+  img{
 
+  }
 </style>
