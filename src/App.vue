@@ -5,7 +5,7 @@
         BOOLFLIX
       </div>
       <input v-model="query" type="search" name="searchbar_movie" id="searchbar_1">
-      <button @click="fetchList()" class="ms-1">search</button>
+      <button @click="getList()" class="ms-1">search</button>
     </div>
 
     <main class="container">
@@ -54,9 +54,9 @@ export default {
       API_KEY: '867af6dea05b16c3445ca730fbe78a37',
       BASE_MOVIE_URI: 'https://api.themoviedb.org/3/search/movie?',
       BASE_TV_URI: 'https://api.themoviedb.org/3/search/tv?',
+      enFlag: require('./assets/flags/en.jpg'),
       movieList: [],
       tvList: [],
-      enFlag: require('./assets/flags/en.jpg'),
       stars: []
     }
   },
@@ -66,25 +66,38 @@ export default {
   },
 
   methods: {
-    fetchList(){
-      this.fetchMovie()
-      this.fetchTv()
+    // fetchList(BASE_URI, list){
+    //   axios
+    //       .get(BASE_URI, {
+    //         params: {
+    //           api_key: this.API_KEY,
+    //           query: this.query
+    //         }
+    //       })
 
-      this.getStars()
-    },
+    //       .then(res => {
+    //         list = res.data.results
+    //         list
+    //       })
+    // },
+
+    // getList(){ 
+    //   this.fetchList(this.BASE_MOVIE_URI, this.movieList)
+    //   this.fetchList(this.BASE_TV_URI, this.tvList)
+
+    //   this.getStars()
+    // },
 
     fetchMovie(){
       axios
           .get(this.BASE_MOVIE_URI, {
-
             params: {
-              api_key: '867af6dea05b16c3445ca730fbe78a37',
+              api_key: this.API_KEY,
               query: this.query
             }
           })
           .then(res => {
             this.movieList = res.data.results
-            this.getStars()
           })
     },
 
@@ -99,6 +112,13 @@ export default {
           .then(res => {
             this.tvList = res.data.results
           })
+    },
+
+    getList(){
+      this.fetchMovie()
+      this.fetchTv()
+
+      this.getStars()
     },
 
     getPosterPic(movie){
@@ -119,10 +139,12 @@ export default {
       const flagUrl = BASE_URI + movie.original_language + '.jpg'
       return flagUrl
     },
+
     getFillStars(movie){
       const movieVote = parseInt(movie.vote_average / 2) 
       return movieVote
     },
+
     getStars(){
       this.stars.length = 5
     }
@@ -132,12 +154,9 @@ export default {
 </script>
 
 <style lang="scss">
+  @import './style/general.scss';
   #app{
-    ul{
-      list-style: none;
-      padding: 0;
-      margin: 0
-    }
+    background-color: $bg-color;
 
     .flag {
     width: 20px;

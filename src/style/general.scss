@@ -1,0 +1,16 @@
+@import './_vars.scss';
+
+ol,ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+*{
+    color: $text-color
+}
+
+a {
+    text-decoration: none;
+    color: currentColor;
+}
