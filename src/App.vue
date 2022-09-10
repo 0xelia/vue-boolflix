@@ -14,7 +14,13 @@
         <li v-for="movie in movieList" :key="movie.id">
           <img :src="getPosterPic(movie)" alt="">
             original title: {{ movie.original_title }} | title: {{movie.title}} <br>
-            Lang: {{movie.original_language}}  | Ratings: {{movie.vote_average}}
+            Lang: <img class="flag" :src="getFlag(movie)" alt="">  | Ratings: 
+            <ul class="starLIst d-flex gx-1">
+              <li v-for="(star,i) in stars" :key="i">
+                <i :class="['fa-solid fa-star', i + 1 <= getFillStars(movie) ? 'fill' : '']"></i> 
+              </li>
+            </ul>
+
         </li>
       </ul>
 
@@ -22,7 +28,12 @@
         <li v-for="tv in tvList" :key="tv.id">
             <img :src="getPosterPic(tv)" alt="">
             original title: {{ tv.original_name }} | title: {{tv.name}} <br>
-            Lang: {{tv.original_language}} | Ratings: {{tv.vote_average}}
+            Lang: <img class="flag" :src="getFlag(tv)" alt=""> | Ratings:
+            <ul class="starLIst d-flex gx-1">
+              <li v-for="(star,i) in stars" :key="i">
+                <i :class="['fa-solid fa-star', i + 1 <= getFillStars(tv) ? 'fill' : '']"></i> 
+              </li>
+            </ul>
         </li>
       </ul>
 
@@ -31,7 +42,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+
 
 export default {
   name: 'App',
@@ -44,15 +56,21 @@ export default {
       BASE_TV_URI: 'https://api.themoviedb.org/3/search/tv?',
       movieList: [],
       tvList: [],
-      flag: '/Users/eliavanon/Desktop/ESERCIZI BOOLEAN/vue-boolflix/src/assets/flags/en.jpg'
+      enFlag: require('./assets/flags/en.jpg'),
+      stars: []
     }
   },
 
+  computed: {
+
+  },
 
   methods: {
     fetchList(){
       this.fetchMovie()
       this.fetchTv()
+
+      this.getStars()
     },
 
     fetchMovie(){
@@ -66,8 +84,7 @@ export default {
           })
           .then(res => {
             this.movieList = res.data.results
-
-            console.log(this.movieList)
+            this.getStars()
           })
     },
 
@@ -81,25 +98,62 @@ export default {
           })
           .then(res => {
             this.tvList = res.data.results
-
-            console.log(this.tvList)
           })
     },
 
     getPosterPic(movie){
-      const BASE_URI = 'https://image.tmdb.org/t/p/w154/'
+      const BASE_URI = 'https://image.tmdb.org/t/p/w342/'
       const posterUrl = BASE_URI + movie.poster_path
 
       return posterUrl
+    },
+
+    getFlag(movie){
+
+      if(movie.original_language == 'en'){
+        const flagUrl = this.enFlag
+        return flagUrl
+      } 
+
+      const BASE_URI = 'https://flagcdn.com/w20/'
+      const flagUrl = BASE_URI + movie.original_language + '.jpg'
+      return flagUrl
+    },
+    getFillStars(movie){
+      const movieVote = parseInt(movie.vote_average / 2) 
+      return movieVote
+    },
+    getStars(){
+      this.stars.length = 5
     }
   },
 
-  
 }
 </script>
 
 <style lang="scss">
-  img{
+  #app{
+    ul{
+      list-style: none;
+      padding: 0;
+      margin: 0
+    }
 
+    .flag {
+    width: 20px;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    object-fit: cover;
   }
+
+    .fa-star{
+      color: rgba(0, 0, 0, 0.4);
+  
+      &.fill{
+        color: rgb(242, 224, 28);
+      }
+    }
+  
+  }
+  
 </style>
