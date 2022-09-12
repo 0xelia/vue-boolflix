@@ -3,7 +3,7 @@
         <div class="logo me-auto">
             BOOLFLIX
         </div>
-        <input v-model="query" type="search" name="searchbar_movie" id="searchbar_1">
+        <input @keyup.enter="fetchLists()" v-model="query" type="search" name="searchbar_movie" id="searchbar_1">
         <button @click="fetchLists()" class="ms-1">search</button>
     </header>
 </template>
@@ -52,6 +52,8 @@
             fetchLists(){
                 this.fetchMovie()
                 this.fetchTv()
+
+                this.query = ''
             },
         }
     }
@@ -60,8 +62,23 @@
 <style lang="scss" scoped>
     @import '../style/general.scss';
 
-    input, button{
-        color: $bg-color;
+    header {
+        background-color: $bg-header;
+
+        .logo{
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: $secondary
+        }
+
+        input, button {
+            color: $text-color;
+            align-self: center;
+            border: solid  $text-color 1px;
+            border-radius: 10px;
+            background-color: transparent;
+            padding: 0.3rem 0.85rem;
+        }
     }
 
 </style>
