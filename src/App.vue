@@ -38,7 +38,6 @@ export default {
 
   data(){
     return {
-      enFlag: require('./assets/flags/en.jpg'),
       movieList: [],
       tvList: [],
       stars: []
@@ -57,34 +56,6 @@ export default {
       this.tvList = tvs
     },
     
-    getPosterPic(movie){
-      const BASE_URI = 'https://image.tmdb.org/t/p/w342/'
-      const posterUrl = BASE_URI + movie.poster_path
-
-      return posterUrl
-    },
-
-    getFlag(movie){
-      const BASE_URI = 'https://flagcdn.com/w20/'
-
-      if(movie.original_language == 'en'){
-        const flagUrl = this.enFlag
-        return flagUrl
-      } 
-      if(movie.original_language == 'ja'){
-        const flagUrl = BASE_URI + 'jp.jpg'
-        return flagUrl
-      } 
-
-      const flagUrl = BASE_URI + movie.original_language + '.jpg'
-      return flagUrl
-    },
-
-    getFillStars(movie){
-      const movieVote = Math.round(movie.vote_average / 2) 
-      return movieVote
-    },
-
     getStars(){
       this.stars.length = 5
     }

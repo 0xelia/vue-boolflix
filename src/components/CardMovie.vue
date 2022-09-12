@@ -24,6 +24,12 @@
 
         },
 
+        data(){
+            return{
+                enFlag: require('../assets/flags/en.jpg'),
+            }
+        },
+
         methods: {
         getPosterPic(movie){
         const BASE_URI = 'https://image.tmdb.org/t/p/w342/'
