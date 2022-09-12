@@ -49,6 +49,7 @@ export default {
     movies(){
       return this.movieList.map(movie => {
         const movies = {
+          id: movie.id,
           title: movie.title,
           original_title: movie.original_title,
           lang: movie.original_language,
@@ -64,6 +65,7 @@ export default {
     tvs(){
       return this.tvList.map(movie => {
         const movies = {
+          id: movie.id,
           title: movie.name,
           original_title: movie.original_name,
           lang: movie.original_language,
@@ -90,6 +92,7 @@ export default {
     getStars(){
       this.stars.length = 5
     }
+
   },
 
   mounted(){

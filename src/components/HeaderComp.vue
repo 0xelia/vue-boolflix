@@ -55,6 +55,7 @@
 
                 this.query = ''
             },
+
         }
     }
 </script>

@@ -18,3 +18,8 @@ a {
 img {
     width: 100%;
 }
+
+
+body::-webkit-scrollbar-track{
+    background-color: red;
+}
